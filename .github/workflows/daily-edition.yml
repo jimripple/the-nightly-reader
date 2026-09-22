@@ -30,10 +30,20 @@ jobs:
         run: |
           if git diff --quiet -- content/daily-editions.json content/daily-editions.js; then
             echo "Today's edition already exists."
-            exit 0
+          else
+            git config user.name "Nightly Reader Curator"
+            git config user.email "actions@users.noreply.github.com"
+            git add content/daily-editions.json content/daily-editions.js
+            git commit -m "Publish daily edition $(date -u +%F)"
+            git push
           fi
-          git config user.name "Nightly Reader Curator"
-          git config user.email "actions@users.noreply.github.com"
-          git add content/daily-editions.json content/daily-editions.js
-          git commit -m "Publish daily edition $(date -u +%F)"
-          git push
+      - name: Install Vercel CLI
+        run: npm install --global vercel@59.23.2
+      - name: Deploy verified edition to production
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+          vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+          vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"
