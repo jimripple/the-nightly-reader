@@ -1,0 +1,15 @@
+{
+  "name": "the-nightly-reader",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 4173",
+    "test": "node tests.mjs",
+    "build": "node build.mjs",
+    "generate:daily": "node scripts/generate-daily.mjs"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.11.1"
+  }
+}

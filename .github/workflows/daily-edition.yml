@@ -1,0 +1,39 @@
+name: Publish daily edition
+
+on:
+  schedule:
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nightly-reader-daily-edition
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run generate:daily
+      - run: npm test
+      - run: npm run build
+      - name: Commit a new edition when one was created
+        run: |
+          if git diff --quiet -- content/daily-editions.json content/daily-editions.js; then
+            echo "Today's edition already exists."
+            exit 0
+          fi
+          git config user.name "Nightly Reader Curator"
+          git config user.email "actions@users.noreply.github.com"
+          git add content/daily-editions.json content/daily-editions.js
+          git commit -m "Publish daily edition $(date -u +%F)"
+          git push

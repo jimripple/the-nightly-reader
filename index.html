@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f1e8" />
+    <meta name="description" content="A thoughtful short story, poem, and essay for every evening." />
+    <title>The Nightly Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Libre+Caslon+Display&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet" />
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem('nightly-theme')||'light'}catch{}</script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to reading</a>
+    <header class="site-header">
+      <button class="wordmark" data-route="today" aria-label="The Nightly Reader, home">
+        <span class="wordmark-mark">N</span><span>The Nightly Reader</span>
+      </button>
+      <button class="menu-button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+      <nav id="primary-nav" aria-label="Primary navigation">
+        <button data-route="today">Today</button><button data-route="archive">Archive</button>
+        <button data-route="search">Search</button><button data-route="library">Library</button>
+        <button data-route="favorites">Favorites</button><button data-route="settings">Settings</button>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Use dark theme" title="Use dark theme"><span aria-hidden="true">◐</span></button>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <footer class="site-footer">
+      <p>The Nightly Reader <i>— a liberal arts reading ritual.</i></p>
+      <button class="text-button" data-route="admin">Curator</button>
+    </footer>
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
