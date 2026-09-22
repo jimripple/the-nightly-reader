@@ -50,7 +50,10 @@ jobs:
 
           for attempt in 1 2; do
             echo "Starting production deployment (attempt $attempt of 2)…"
-            deployment_url="$(vercel deploy --prebuilt --prod --force --yes --no-wait --token="$VERCEL_TOKEN")"
+            if ! deployment_url="$(vercel deploy --prebuilt --prod --force --yes --no-wait --token="$VERCEL_TOKEN")"; then
+              echo "Vercel rejected this deployment attempt. Retrying."
+              continue
+            fi
 
             if vercel inspect "$deployment_url" --wait --timeout 6m --token="$VERCEL_TOKEN"; then
               echo "Production deployment is ready: $deployment_url"
