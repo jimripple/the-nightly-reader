@@ -15,7 +15,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -43,7 +43,22 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
-          vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
-          vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"
+          vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+          vercel build --prod --token="$VERCEL_TOKEN"
+
+          for attempt in 1 2; do
+            echo "Starting production deployment (attempt $attempt of 2)…"
+            deployment_url="$(vercel deploy --prebuilt --prod --force --yes --no-wait --token="$VERCEL_TOKEN")"
+
+            if vercel inspect "$deployment_url" --wait --timeout 6m --token="$VERCEL_TOKEN"; then
+              echo "Production deployment is ready: $deployment_url"
+              exit 0
+            fi
+
+            echo "Deployment did not become ready in time. Retrying with a fresh deployment."
+          done
+
+          echo "Vercel did not complete either deployment attempt."
+          exit 1
