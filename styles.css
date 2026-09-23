@@ -92,3 +92,4 @@ details.reflection[open]>.reflection-body{grid-template-rows:1fr;opacity:1}
 .edition-dateline span{display:block;white-space:nowrap}
 .archive-row{grid-template-columns:130px 90px 1fr}
 @media(max-width:760px){.edition-dateline{font-size:10px;letter-spacing:.16em}.edition-meta span:nth-child(2){display:inline}.archive-row{grid-template-columns:85px 1fr}}
+.favorite-date{margin-bottom:10px;line-height:1.5}
