@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { runInNewContext } from 'node:vm';
 import { editions, allWorks } from './data.js';
 import { generateEdition, distribution } from './generator.js';
 
@@ -16,4 +18,16 @@ const retry = generateEdition({date:editions[0].date, editions, candidates:allWo
 assert.equal(retry.created, false, 'same-day generation is idempotent');
 assert.equal(retry.edition.id, editions[0].id, 'retry preserves the valid edition');
 assert.ok(Object.keys(distribution(editions,'culture')).length >= 7, 'distribution supports curriculum balancing');
-console.log('✓ 10 curriculum, automation, rights, source, and idempotency checks passed');
+const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+const initialThemeScript=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+assert.ok(initialThemeScript, 'initial theme is set before the stylesheet loads');
+function initialTheme(savedTheme,deviceDark){
+  const document={documentElement:{dataset:{}},querySelector:()=>({content:''})};
+  runInNewContext(initialThemeScript,{document,localStorage:{getItem:()=>savedTheme},matchMedia:()=>({matches:deviceDark})});
+  return document.documentElement.dataset.theme;
+}
+assert.equal(initialTheme(null,true),'dark','new visitors follow a dark device setting');
+assert.equal(initialTheme(null,false),'light','new visitors follow a light device setting');
+assert.equal(initialTheme('light',true),'light','a saved choice overrides the device setting');
+assert.equal(initialTheme('dark',false),'dark','a saved dark choice remains dark');
+console.log('✓ 14 curriculum, automation, rights, source, idempotency, and theme checks passed');

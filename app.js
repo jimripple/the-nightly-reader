@@ -132,9 +132,10 @@ function bind(){
   hydrateFullTexts();
 }
 document.querySelector('.menu-button').onclick=e=>{const nav=document.querySelector('#primary-nav'),open=nav.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',String(open))};
-function applyTheme(theme){ document.documentElement.dataset.theme=theme; localStorage.setItem('nightly-theme',theme); const button=document.querySelector('#theme-toggle'); const dark=theme==='dark'; button.setAttribute('aria-label',dark?'Use light theme':'Use dark theme'); button.title=dark?'Use light theme':'Use dark theme'; button.querySelector('span').textContent=dark?'☀':'◐'; }
-document.querySelector('#theme-toggle').onclick=()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+function applyTheme(theme,persist=false){ document.documentElement.dataset.theme=theme; if(persist)try{localStorage.setItem('nightly-theme',theme)}catch{} document.querySelector('meta[name="theme-color"]').content=theme==='dark'?'#171714':'#f5f1e8'; const button=document.querySelector('#theme-toggle'); const dark=theme==='dark'; button.setAttribute('aria-label',dark?'Use light theme':'Use dark theme'); button.title=dark?'Use light theme':'Use dark theme'; button.querySelector('span').textContent=dark?'☀':'◐'; }
+document.querySelector('#theme-toggle').onclick=()=>applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark',true);
 applyTheme(document.documentElement.dataset.theme||'light');
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',event=>{ let saved;try{saved=localStorage.getItem('nightly-theme')}catch{} if(saved!=='dark'&&saved!=='light')applyTheme(event.matches?'dark':'light'); });
 document.querySelector('#back-to-top').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 window.addEventListener('scroll',()=>document.querySelector('#back-to-top').classList.toggle('show',scrollY>700));
 if('scrollRestoration' in history) history.scrollRestoration='manual';
