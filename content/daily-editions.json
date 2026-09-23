@@ -1,5 +1,100 @@
 [
   {
+    "id": "2026-09-23",
+    "date": "2026-09-23",
+    "number": 9,
+    "theme": "The Present and the Permanent",
+    "curatorNote": "A current article from The Conversation meets a poem and a short story from another time. Read for resonance, disagreement, and distance.",
+    "works": [
+      {
+        "id": "article-2026-09-23-c71e3e547b",
+        "type": "article",
+        "title": "Mosque attack highlights evolving extremism landscape that has brought Pakistan-Afghanistan ties to crisis point",
+        "author": {
+          "name": "Saif Tahir, Research Assistant and Doctoral Student, Te Herenga Waka — Victoria University of Wellington",
+          "lifespan": "Contemporary",
+          "culture": "International"
+        },
+        "year": 2026,
+        "minutes": 8,
+        "category": "Ideas",
+        "century": "21st century",
+        "intro": "A current piece from The Conversation, selected to place tonight’s older works in conversation with the present.",
+        "source": "The Conversation",
+        "sourceUrl": "https://theconversation.com/mosque-attack-highlights-evolving-extremism-landscape-that-has-brought-pakistan-afghanistan-ties-to-crisis-point-292416",
+        "copyright": "Copyrighted; linked summary",
+        "access": "external",
+        "text": "Convergence and competition between militant groups has spurred violence. Meanwhile, Pakistan accuses Afghanistan of harboring terrorists.",
+        "tags": [
+          "contemporary",
+          "ideas"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Recent, source-verified, and selected with a penalty against repeatedly using the same publication."
+      },
+      {
+        "id": "daily-2026-09-23-p2",
+        "type": "poem",
+        "title": "We Wear the Mask",
+        "author": {
+          "name": "Paul Laurence Dunbar",
+          "lifespan": "1872–1906",
+          "culture": "African American"
+        },
+        "year": 1896,
+        "minutes": 2,
+        "category": "Lyric",
+        "century": "19th century",
+        "intro": "Dunbar’s formal control makes the social performance he describes feel more, not less, urgent.",
+        "source": "Poetry Foundation",
+        "sourceUrl": "https://www.poetryfoundation.org/poems/44203/we-wear-the-mask",
+        "copyright": "Public domain",
+        "text": "We wear the mask that grins and lies,\nIt hides our cheeks and shades our eyes,—\nThis debt we pay to human guile;\nWith torn and bleeding hearts we smile,\nAnd mouth with myriad subtleties.",
+        "tags": [
+          "identity",
+          "race",
+          "performance"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Selected for chronological and cultural contrast; recent author repetition is penalized.",
+        "editionId": "2026-09-16",
+        "editionNumber": 2,
+        "editionDate": "2026-09-16",
+        "baseId": "p2"
+      },
+      {
+        "id": "daily-2026-09-23-s2",
+        "type": "story",
+        "title": "The Overcoat",
+        "author": {
+          "name": "Nikolai Gogol",
+          "lifespan": "1809–1852",
+          "culture": "Ukrainian / Russian"
+        },
+        "year": 1842,
+        "minutes": 11,
+        "category": "Satire",
+        "century": "19th century",
+        "intro": "Bureaucratic absurdity and human tenderness share the same threadbare coat.",
+        "source": "Project Gutenberg",
+        "sourceUrl": "https://www.gutenberg.org/ebooks/36238",
+        "copyright": "Public domain",
+        "text": "In the department of—but it is better not to mention the department. For there is nothing more sensitive than a department, a regiment, a government office, in fact, any branch of public service. Nowadays every private individual considers the whole of society insulted in his person.",
+        "tags": [
+          "bureaucracy",
+          "poverty",
+          "dignity"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Selected for chronological and cultural contrast; recent author repetition is penalized.",
+        "editionId": "2026-09-16",
+        "editionNumber": 2,
+        "editionDate": "2026-09-16",
+        "baseId": "s2"
+      }
+    ]
+  },
+  {
     "id": "2026-09-22",
     "date": "2026-09-22",
     "number": 8,

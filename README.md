@@ -1,6 +1,6 @@
 # The Nightly Reader
 
-A calm, newspaper-like personal reading program spanning contemporary ideas and enduring literature. Each automated edition pairs one current article with a poem and a rotating classic story or essay. It includes complete on-site public-domain texts, clearly linked modern articles, archive/search, private local notes with CSV export and restorable backups, favorites, progress, settings, and dark mode.
+A calm, newspaper-like personal reading program spanning contemporary ideas and enduring literature. Each automated edition pairs one current article with a poem and a classic short story. It includes complete on-site public-domain texts, clearly linked modern articles, archive/search, private local notes with CSV export and restorable backups, favorites, progress, settings, and dark mode.
 
 ## Architecture
 
@@ -34,16 +34,16 @@ npm run build
 
 ## Daily generation flow
 
-GitHub Actions runs `.github/workflows/daily-edition.yml` every day at 20:00 UTC. The job:
+GitHub Actions runs `.github/workflows/daily-edition.yml` every day at 1:17 p.m. and again at 3:37 p.m. Detroit time. The second run is an idempotent backup in case GitHub delays or drops the first scheduled run. The job:
 
 1. Reads publisher-provided feeds from Smithsonian Magazine, Aeon, The Conversation, and The Public Domain Review.
 2. Requires at least two healthy feeds and chooses an unused article published within the last 30 days.
 3. Penalizes recently repeated publications, authors, and works.
-4. Adds one poem and alternates the third slot between a classic story and essay.
+4. Adds one poem and one classic short story from the verified catalog.
 5. Stores modern copyrighted material only as feed metadata and a short summary with an outbound link.
 6. Writes a dated edition once; reruns are idempotent.
 7. Runs the integrity tests and production build before committing.
-8. Pushes the generated edition to the private repository; Vercel then deploys it automatically.
+8. Pushes the generated edition to the public repository and deploys it to Vercel.
 
 If feeds or tests fail, nothing is committed and the last valid edition remains live. Run `npm run generate:daily` for a manual edition or `node scripts/generate-daily.mjs --date=YYYY-MM-DD` for a controlled date.
 

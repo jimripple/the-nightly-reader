@@ -19,7 +19,6 @@ const textOf = value => typeof value==='string' || typeof value==='number' ? Str
 const clean = value => textOf(value).replace(/<[^>]*>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#(?:39|x27);/gi,"'").replace(/\s+/g,' ').trim();
 const shorten = (value,limit=420) => { const text=clean(value); if(text.length<=limit)return text; const clipped=text.slice(0,limit); const end=Math.max(clipped.lastIndexOf('. '),clipped.lastIndexOf(' ')); return `${clipped.slice(0,end>200?end:limit)}…`; };
 const hash = value => createHash('sha256').update(value).digest('hex').slice(0,10);
-const editionDay = Math.floor(new Date(`${date}T12:00:00Z`).getTime()/86400000);
 
 function rssItems(parsed, source){
   const channel=parsed.rss?.channel;
@@ -89,12 +88,11 @@ const modern={
   text:article.summary,tags:['contemporary',article.category.toLowerCase()].filter(Boolean),difficulty:'Moderate',
   rationale:'Recent, source-verified, and selected with a penalty against repeatedly using the same publication.'
 };
-const rotatingType=editionDay%2===0?'story':'essay';
-const works=[modern,chooseClassic('poem'),chooseClassic(rotatingType)];
+const works=[modern,chooseClassic('poem'),chooseClassic('story')];
 const next={
   id:date,date,number:Math.max(0,...editions.map(edition=>edition.number))+1,
   theme:'The Present and the Permanent',
-  curatorNote:`A current article from ${article.source.name} meets a poem and a ${rotatingType} from another time. Read for resonance, disagreement, and distance.`,
+  curatorNote:`A current article from ${article.source.name} meets a poem and a short story from another time. Read for resonance, disagreement, and distance.`,
   works
 };
 const jsonUrl=new URL('../content/daily-editions.json',import.meta.url);

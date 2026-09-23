@@ -2,7 +2,10 @@ name: Publish daily edition
 
 on:
   schedule:
-    - cron: "0 20 * * *"
+    - cron: "17 13 * * *"
+      timezone: "America/Detroit"
+    - cron: "37 15 * * *"
+      timezone: "America/Detroit"
   workflow_dispatch:
 
 permissions:
