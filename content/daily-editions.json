@@ -1,5 +1,100 @@
 [
   {
+    "id": "2026-09-24",
+    "date": "2026-09-24",
+    "number": 10,
+    "theme": "The Present and the Permanent",
+    "curatorNote": "A current article from Aeon meets a poem and a short story from another time. Read for resonance, disagreement, and distance.",
+    "works": [
+      {
+        "id": "article-2026-09-24-772c013aea",
+        "type": "article",
+        "title": "Britain’s last great airship",
+        "author": {
+          "name": "Aeon Video",
+          "lifespan": "Contemporary",
+          "culture": "International"
+        },
+        "year": 2026,
+        "minutes": 8,
+        "category": "Ideas",
+        "century": "21st century",
+        "intro": "A current piece from Aeon, selected to place tonight’s older works in conversation with the present.",
+        "source": "Aeon",
+        "sourceUrl": "https://aeon.co/videos/before-the-hindenburg-there-was-r101-britains-ill-fated-airship",
+        "copyright": "Copyrighted; linked summary",
+        "access": "external",
+        "text": "The remarkable engineering and tragic demise of the vessel that would end Britain’s dream to dominate the skies - by Aeon Video Watch on Aeon",
+        "tags": [
+          "contemporary",
+          "ideas"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Recent, source-verified, and selected with a penalty against repeatedly using the same publication."
+      },
+      {
+        "id": "daily-2026-09-24-p3",
+        "type": "poem",
+        "title": "The Tyger",
+        "author": {
+          "name": "William Blake",
+          "lifespan": "1757–1827",
+          "culture": "British"
+        },
+        "year": 1794,
+        "minutes": 2,
+        "category": "Romantic poetry",
+        "century": "18th century",
+        "intro": "A childlike meter carries an adult terror: what kind of maker creates destructive beauty.",
+        "source": "Poetry Foundation",
+        "sourceUrl": "https://www.poetryfoundation.org/poems/43687/the-tyger",
+        "copyright": "Public domain",
+        "text": "Tyger Tyger, burning bright,\nIn the forests of the night;\nWhat immortal hand or eye,\nCould frame thy fearful symmetry?\n\nIn what distant deeps or skies.\nBurnt the fire of thine eyes?\nOn what wings dare he aspire?\nWhat the hand, dare seize the fire?",
+        "tags": [
+          "creation",
+          "beauty",
+          "religion"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Selected for chronological and cultural contrast; recent author repetition is penalized.",
+        "editionId": "2026-09-17",
+        "editionNumber": 3,
+        "editionDate": "2026-09-17",
+        "baseId": "p3"
+      },
+      {
+        "id": "daily-2026-09-24-s3",
+        "type": "story",
+        "title": "The Queen of Spades",
+        "author": {
+          "name": "Alexander Pushkin",
+          "lifespan": "1799–1837",
+          "culture": "Russian"
+        },
+        "year": 1834,
+        "minutes": 10,
+        "category": "Gothic fiction",
+        "century": "19th century",
+        "intro": "A coolly told Russian tale of gambling, secrecy, and the mathematics of obsession.",
+        "source": "Project Gutenberg",
+        "sourceUrl": "https://www.gutenberg.org/ebooks/23058",
+        "copyright": "Public domain",
+        "text": "There was a card party at the rooms of Narumov of the Horse Guards. The long winter night passed away imperceptibly, and it was five o'clock in the morning before the company sat down to supper. Those who had won ate with a good appetite; the others sat staring absently at their empty plates.",
+        "tags": [
+          "chance",
+          "obsession",
+          "Russia"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Selected for chronological and cultural contrast; recent author repetition is penalized.",
+        "editionId": "2026-09-17",
+        "editionNumber": 3,
+        "editionDate": "2026-09-17",
+        "baseId": "s3"
+      }
+    ]
+  },
+  {
     "id": "2026-09-23",
     "date": "2026-09-23",
     "number": 9,
