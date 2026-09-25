@@ -33,6 +33,8 @@ assert.ok(Object.keys(distribution(editions,'culture')).length >= 7, 'distributi
 const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
 const app=readFileSync(new URL('./app.js',import.meta.url),'utf8');
 const workflow=readFileSync(new URL('./.github/workflows/daily-edition.yml',import.meta.url),'utf8');
+const buildScript=readFileSync(new URL('./build.mjs',import.meta.url),'utf8');
+assert.match(buildScript,/['"]edition-status\.js['"]/,'the production bundle includes the schedule-status module');
 assert.match(workflow,/cron: ["']30 14 \* \* \*["']\s+timezone: ["']America\/Detroit["']/,'primary edition run is scheduled for 2:30 p.m. Detroit time');
 assert.match(workflow,/cron: ["']30 15 \* \* \*["']\s+timezone: ["']America\/Detroit["']/,'backup edition run is scheduled for 3:30 p.m. Detroit time');
 assert.ok(!app.includes('id="settings-form"')&&html.includes('Notes &amp; privacy'),'unused reader-selection controls are hidden while notes remain accessible');
