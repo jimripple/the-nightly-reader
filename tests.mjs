@@ -7,6 +7,8 @@ import { cleanArticleSummary, isReadableArticleCandidate } from './scripts/artic
 import { cleanSourceText } from './content/clean-source-text.js';
 import { replacedWorks } from './content/replaced-works.js';
 import { editionScheduleMessage } from './edition-status.js';
+import { checkDailyEdition } from './scripts/check-daily-edition.mjs';
+import { GET as checkEditionRoute } from './api/check-edition.js';
 
 const seeded=editions.filter(edition=>edition.date<='2026-09-21');
 const automated=editions.filter(edition=>edition.date>'2026-09-21');
@@ -52,4 +54,41 @@ assert.equal(initialTheme('dark',false),'dark','a saved dark choice remains dark
 assert.equal(editionScheduleMessage('2026-09-24',new Date('2026-09-25T18:22:00Z')),'New edition scheduled daily for 2:30 p.m. Eastern','before publication time the schedule is clear');
 assert.match(editionScheduleMessage('2026-09-24',new Date('2026-09-25T20:01:00Z')),/running late/,'stale editions are clearly identified after 4 p.m. Eastern');
 assert.doesNotMatch(editionScheduleMessage('2026-09-25',new Date('2026-09-25T20:01:00Z')),/running late/,'a current edition is never labeled late');
+const cron=JSON.parse(readFileSync(new URL('./vercel.json',import.meta.url),'utf8')).crons;
+assert.deepEqual(cron,[{path:'/api/check-edition',schedule:'0 20 * * *'}],'Vercel has one daily always-on fallback');
+const checkTime=new Date('2026-09-25T20:15:00Z');
+const healthyCalls=[];
+const healthy=await checkDailyEdition({now:checkTime,token:'test-token',fetchImpl:async url=>{
+  healthyCalls.push(url);
+  return Response.json([{date:'2026-09-25',works:[{type:'article'},{type:'poem'},{type:'story'}]}]);
+}});
+assert.equal(healthy.status,'healthy','a complete live edition needs no dispatch');
+assert.equal(healthyCalls.length,1,'healthy check never calls GitHub');
+const runningCalls=[];
+const running=await checkDailyEdition({now:checkTime,token:'test-token',fetchImpl:async url=>{
+  runningCalls.push(url);
+  return runningCalls.length===1?Response.json([]):Response.json({workflow_runs:[{status:'in_progress',created_at:'2026-09-25T19:00:00Z'}]});
+}});
+assert.equal(running.status,'publisher-running','an active publisher prevents a duplicate dispatch');
+assert.equal(runningCalls.length,2);
+const staleCalls=[];
+const dispatched=await checkDailyEdition({now:checkTime,token:'test-token',fetchImpl:async (url,options={})=>{
+  staleCalls.push({url,options});
+  if(staleCalls.length===1)return Response.json([]);
+  if(staleCalls.length===2)return Response.json({workflow_runs:[]});
+  return new Response(null,{status:204});
+}});
+assert.equal(dispatched.status,'publisher-dispatched','a stale edition with no active run triggers one dispatch');
+assert.equal(staleCalls.filter(call=>call.options.method==='POST').length,1);
+assert.equal((await checkEditionRoute(new Request('https://example.com/api/check-edition'))).status,401,'the cron endpoint rejects unauthenticated requests');
+const originalCronSecret=process.env.CRON_SECRET, originalDispatchToken=process.env.GITHUB_DISPATCH_TOKEN;
+try {
+  process.env.CRON_SECRET='test-secret';
+  delete process.env.GITHUB_DISPATCH_TOKEN;
+  const configuredRequest=new Request('https://example.com/api/check-edition',{headers:{authorization:'Bearer test-secret'}});
+  assert.equal((await checkEditionRoute(configuredRequest)).status,503,'missing GitHub credentials cannot silently pass a cron check');
+} finally {
+  if(originalCronSecret===undefined)delete process.env.CRON_SECRET; else process.env.CRON_SECRET=originalCronSecret;
+  if(originalDispatchToken===undefined)delete process.env.GITHUB_DISPATCH_TOKEN; else process.env.GITHUB_DISPATCH_TOKEN=originalDispatchToken;
+}
 console.log('✓ Curriculum, automation, source, reading, privacy, idempotency, and theme checks passed');

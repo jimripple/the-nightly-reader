@@ -47,6 +47,17 @@ GitHub Actions schedules `.github/workflows/daily-edition.yml` every day at 2:30
 
 If feeds or tests fail, nothing is committed and the last valid edition remains live. Run `npm run generate:daily` for a manual edition or `node scripts/generate-daily.mjs --date=YYYY-MM-DD` for a controlled date.
 
+### Always-on fallback
+
+`vercel.json` also schedules a protected Vercel Function at 20:00 UTC each day. On the Hobby plan Vercel can invoke it at any point in that UTC hour (4–5 p.m. Detroit daylight time, 3–4 p.m. standard time). It checks the public edition, then the GitHub workflow runs; if today's complete edition is absent and no run is active, it dispatches the same idempotent workflow. It does not publish a second edition.
+
+The production Vercel project needs two environment variables before this fallback is deployed:
+
+- `CRON_SECRET`: a random secret; Vercel sends it as a bearer token to the function. This is already configured in the current project.
+- `GITHUB_DISPATCH_TOKEN`: a fine-grained GitHub personal access token limited to the `jimripple/the-nightly-reader` repository, with **Actions: Read and write** and no other optional permissions. Store it as a Production environment variable in Vercel, never in the repository or chat. Renew it before its expiration date.
+
+After both variables exist, deploy to production to register the cron. Vercel does not retry a failed cron invocation, so GitHub's two schedules and the local 4 p.m. monitor remain as other paths. A missing token makes the endpoint return 503 without dispatching anything.
+
 ## Copyright and sources
 
 The classic catalog uses works labeled public domain and links to established repositories or original periodical archives. Complete texts are shown onsite where a verified public-domain source is available. Contemporary copyrighted works remain metadata plus a short publisher-feed summary and outbound link; their full text is never scraped or republished. Unknown metadata remains unknown rather than being inferred.
