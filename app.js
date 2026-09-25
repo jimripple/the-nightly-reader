@@ -2,6 +2,7 @@ import { editions, allWorks, todayEdition } from './data.js';
 import { fullTexts } from './content/full-texts.js';
 import { cleanSourceText } from './content/clean-source-text.js';
 import { replacedWorks } from './content/replaced-works.js';
+import { editionScheduleMessage } from './edition-status.js';
 
 const store = {
   read(){ try{return JSON.parse(localStorage.getItem('nightly-reader')||'{}')}catch{return{}} },
@@ -54,7 +55,7 @@ function workCard(work){
 }
 function todayPage(edition=todayEdition){
   const dateLabel=formatDate(edition.date), comma=dateLabel.indexOf(',');
-  return `<section class="edition-hero"><div class="edition-dateline eyebrow"><span>${dateLabel.slice(0,comma)}</span><span>${dateLabel.slice(comma+2)}</span><span>Edition No. ${String(edition.number).padStart(3,'0')}</span></div><h1>Tonight’s Reading</h1><p class="edition-schedule">New edition daily at 1:17 p.m. Eastern</p></section>
+  return `<section class="edition-hero"><div class="edition-dateline eyebrow"><span>${dateLabel.slice(0,comma)}</span><span>${dateLabel.slice(comma+2)}</span><span>Edition No. ${String(edition.number).padStart(3,'0')}</span></div><h1>Tonight’s Reading</h1><p class="edition-schedule">${editionScheduleMessage(edition.date)}</p></section>
   <section class="edition-overview" aria-label="Tonight's table of contents">${edition.works.map((w,index)=>`<button class="overview-item text-button ${index===0?'overview-lead':''}" data-scroll="${w.id}"><span class="eyebrow">${workType(w.type)}</span><h2>${esc(w.title)}</h2><p>${esc(index===0?w.source:w.author.name)}</p><span class="overview-read">Read ${w.type==='poem'?'poem':w.type==='story'?'story':w.type} ↓</span></button>`).join('')}</section>
   <div class="edition-meta"><span>Three works · ${esc(edition.theme)}</span><span data-edition-progress>${state().read.filter(id=>edition.works.some(w=>w.id===id)).length} of ${edition.works.length} read</span></div>
   <nav class="reader-jump-nav" aria-label="Jump to another reading">${edition.works.map(w=>`<button class="text-button" data-scroll="${w.id}" data-jump-work="${w.id}"><span>${workType(w.type)}</span><strong>${esc(w.title)}</strong></button>`).join('')}</nav>${edition.works.map(workCard).join('')}`;

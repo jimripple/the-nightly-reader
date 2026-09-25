@@ -34,7 +34,7 @@ npm run build
 
 ## Daily generation flow
 
-GitHub Actions runs `.github/workflows/daily-edition.yml` every day at 1:17 p.m. and again at 3:37 p.m. Detroit time. The second run is an idempotent backup in case GitHub delays or drops the first scheduled run. The job:
+GitHub Actions schedules `.github/workflows/daily-edition.yml` every day at 2:30 p.m. and again at 3:30 p.m. Detroit time. The second run is an idempotent backup in case GitHub delays or drops the first scheduled run. GitHub schedules are best-effort, not guaranteed exact publication times. A separate 4:00 p.m. local Codex heartbeat checks the public edition and can dispatch the workflow if both scheduled attempts have not produced today's edition (while the host is available). The job:
 
 1. Reads publisher-provided feeds from Smithsonian Magazine, Aeon, The Conversation, and The Public Domain Review.
 2. Requires at least two healthy feeds and chooses an unused article published within the last 30 days.

@@ -6,6 +6,7 @@ import { generateEdition, distribution } from './generator.js';
 import { cleanArticleSummary, isReadableArticleCandidate } from './scripts/article-eligibility.mjs';
 import { cleanSourceText } from './content/clean-source-text.js';
 import { replacedWorks } from './content/replaced-works.js';
+import { editionScheduleMessage } from './edition-status.js';
 
 const seeded=editions.filter(edition=>edition.date<='2026-09-21');
 const automated=editions.filter(edition=>edition.date>'2026-09-21');
@@ -31,6 +32,9 @@ assert.equal(retry.edition.id, editions[0].id, 'retry preserves the valid editio
 assert.ok(Object.keys(distribution(editions,'culture')).length >= 7, 'distribution supports curriculum balancing');
 const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
 const app=readFileSync(new URL('./app.js',import.meta.url),'utf8');
+const workflow=readFileSync(new URL('./.github/workflows/daily-edition.yml',import.meta.url),'utf8');
+assert.match(workflow,/cron: ["']30 14 \* \* \*["']\s+timezone: ["']America\/Detroit["']/,'primary edition run is scheduled for 2:30 p.m. Detroit time');
+assert.match(workflow,/cron: ["']30 15 \* \* \*["']\s+timezone: ["']America\/Detroit["']/,'backup edition run is scheduled for 3:30 p.m. Detroit time');
 assert.ok(!app.includes('id="settings-form"')&&html.includes('Notes &amp; privacy'),'unused reader-selection controls are hidden while notes remain accessible');
 const initialThemeScript=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(initialThemeScript, 'initial theme is set before the stylesheet loads');
@@ -43,4 +47,7 @@ assert.equal(initialTheme(null,true),'dark','new visitors follow a dark device s
 assert.equal(initialTheme(null,false),'light','new visitors follow a light device setting');
 assert.equal(initialTheme('light',true),'light','a saved choice overrides the device setting');
 assert.equal(initialTheme('dark',false),'dark','a saved dark choice remains dark');
+assert.equal(editionScheduleMessage('2026-09-24',new Date('2026-09-25T18:22:00Z')),'New edition scheduled daily for 2:30 p.m. Eastern','before publication time the schedule is clear');
+assert.match(editionScheduleMessage('2026-09-24',new Date('2026-09-25T20:01:00Z')),/running late/,'stale editions are clearly identified after 4 p.m. Eastern');
+assert.doesNotMatch(editionScheduleMessage('2026-09-25',new Date('2026-09-25T20:01:00Z')),/running late/,'a current edition is never labeled late');
 console.log('✓ Curriculum, automation, source, reading, privacy, idempotency, and theme checks passed');
