@@ -34,7 +34,7 @@ npm run build
 
 ## Daily generation flow
 
-GitHub Actions schedules `.github/workflows/daily-edition.yml` every day at 2:30 p.m. and again at 3:30 p.m. Detroit time. The second run is an idempotent backup in case GitHub delays or drops the first scheduled run. GitHub schedules are best-effort, not guaranteed exact publication times. A separate 4:00 p.m. local Codex heartbeat checks the public edition and can dispatch the workflow if both scheduled attempts have not produced today's edition (while the host is available). The job:
+GitHub Actions schedules `.github/workflows/daily-edition.yml` every day at 2:30 p.m. and again at 3:30 p.m. Detroit time. The second run is an idempotent backup in case GitHub delays or drops the first scheduled run. GitHub schedules are best-effort, not guaranteed exact publication times. An independent Vercel cron checks later in the afternoon. A separate 5:30 p.m. local Codex heartbeat is a final monitor while the host is available. The job:
 
 1. Reads publisher-provided feeds from Smithsonian Magazine, Aeon, The Conversation, and The Public Domain Review.
 2. Requires at least two healthy feeds and chooses an unused article published within the last 30 days.
@@ -56,7 +56,7 @@ The production Vercel project needs two environment variables before this fallba
 - `CRON_SECRET`: a random secret; Vercel sends it as a bearer token to the function. This is already configured in the current project.
 - `GITHUB_DISPATCH_TOKEN`: a fine-grained GitHub personal access token limited to the `jimripple/the-nightly-reader` repository, with **Actions: Read and write** and no other optional permissions. Store it as a Production environment variable in Vercel, never in the repository or chat. Renew it before its expiration date.
 
-After both variables exist, deploy to production to register the cron. Vercel does not retry a failed cron invocation, so GitHub's two schedules and the local 4 p.m. monitor remain as other paths. A missing token makes the endpoint return 503 without dispatching anything.
+After both variables exist, deploy to production to register the cron. Vercel does not retry a failed cron invocation, so GitHub's two schedules and the local 5:30 p.m. monitor remain as other paths. A missing token makes the endpoint return 503 without dispatching anything.
 
 ## Copyright and sources
 
