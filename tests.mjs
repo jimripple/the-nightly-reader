@@ -3,6 +3,9 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { editions, allWorks } from './data.js';
 import { generateEdition, distribution } from './generator.js';
+import { cleanArticleSummary, isReadableArticleCandidate } from './scripts/article-eligibility.mjs';
+import { cleanSourceText } from './content/clean-source-text.js';
+import { replacedWorks } from './content/replaced-works.js';
 
 const seeded=editions.filter(edition=>edition.date<='2026-09-21');
 const automated=editions.filter(edition=>edition.date>'2026-09-21');
@@ -12,6 +15,14 @@ assert.ok(seeded.every(e => ['story','poem','essay'].every(type => e.works.filte
 assert.ok(automated.every(e=>['article','poem','story'].every(type=>e.works.filter(w=>w.type===type).length===1)), 'automated editions include exactly one article, poem, and short story');
 assert.ok(allWorks.every(w => w.sourceUrl.startsWith('https://') && w.copyright), 'sources and rights are present');
 assert.ok(automated.flatMap(e=>e.works).filter(w=>w.type==='article').every(w=>w.access==='external'&&w.copyright.startsWith('Copyrighted')), 'modern articles remain linked summaries');
+assert.equal(isReadableArticleCandidate({link:'https://aeon.co/videos/a-history',author:'Aeon Video',category:'Ideas',summary:'Watch on Aeon'}),false,'video feed items cannot fill the article slot');
+assert.equal(isReadableArticleCandidate({link:'https://publicdomainreview.org/collection/a-manuscript',author:'The Public Domain Review',category:'Ideas',summary:'An illustrated collection.'}),false,'image collections cannot fill the article slot');
+assert.equal(isReadableArticleCandidate({link:'https://aeon.co/essays/a-history',author:'Jane Writer',category:'Ideas',summary:'A readable essay about history.'}),true,'written articles remain eligible');
+assert.equal(isReadableArticleCandidate({link:'https://publicdomainreview.org/essay/a-history',author:'Jane Writer',category:'Ideas',summary:'A readable essay about history.'}),true,'written essays from The Public Domain Review remain eligible');
+assert.equal(cleanArticleSummary('Caring for farms and neighbours - by Craig Maier Read on Aeon'),'Caring for farms and neighbours','feed navigation is removed from the article summary');
+assert.equal(cleanSourceText('Best Russian Short Stories\n\nThe Queen of Spades\n\nBy Aleksandr S. Pushkin\n\nI\n\nThere was a card party.', 'The Queen of Spades'),'There was a card party.','imported collection headings are removed before reading');
+assert.ok(automated.flatMap(e=>e.works).filter(w=>w.type==='article').every(isReadableArticleCandidate),'published article slots link to written articles');
+assert.ok(replacedWorks.some(w=>w.id==='article-2026-09-24-772c013aea'&&w.editionDate==='2026-09-24'&&w.sourceUrl.startsWith('https://')),'notes and favorites on the replaced video retain their original metadata');
 assert.equal(new Set(allWorks.map(w=>w.id)).size, allWorks.length, 'work IDs are unique');
 assert.ok(new Set(allWorks.map(w=>w.author.culture)).size >= 7, 'seed spans at least seven cultural traditions');
 const retry = generateEdition({date:editions[0].date, editions, candidates:allWorks});
@@ -19,6 +30,8 @@ assert.equal(retry.created, false, 'same-day generation is idempotent');
 assert.equal(retry.edition.id, editions[0].id, 'retry preserves the valid edition');
 assert.ok(Object.keys(distribution(editions,'culture')).length >= 7, 'distribution supports curriculum balancing');
 const html=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+const app=readFileSync(new URL('./app.js',import.meta.url),'utf8');
+assert.ok(!app.includes('id="settings-form"')&&html.includes('Notes &amp; privacy'),'unused reader-selection controls are hidden while notes remain accessible');
 const initialThemeScript=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(initialThemeScript, 'initial theme is set before the stylesheet loads');
 function initialTheme(savedTheme,deviceDark){
@@ -30,4 +43,4 @@ assert.equal(initialTheme(null,true),'dark','new visitors follow a dark device s
 assert.equal(initialTheme(null,false),'light','new visitors follow a light device setting');
 assert.equal(initialTheme('light',true),'light','a saved choice overrides the device setting');
 assert.equal(initialTheme('dark',false),'dark','a saved dark choice remains dark');
-console.log('✓ 14 curriculum, automation, rights, source, idempotency, and theme checks passed');
+console.log('✓ Curriculum, automation, source, reading, privacy, idempotency, and theme checks passed');

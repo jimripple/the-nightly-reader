@@ -79,6 +79,7 @@ details.reflection[open]>.reflection-body{grid-template-rows:1fr;opacity:1}
 @media print{.reader-jump-nav{display:none!important}}
 .privacy-note{margin:9px 0 2px!important;font-family:var(--sans);font-size:10px!important;line-height:1.5!important;letter-spacing:.05em;color:var(--muted)}
 .private-data{margin-top:55px;padding-top:24px;border-top:2px solid var(--ink)}
+.settings .private-data{margin-top:0}
 .private-data h2{margin:8px 0 10px;font:32px/1.1 var(--display);font-weight:400}
 .private-data p{color:var(--muted);font-size:16px;line-height:1.55}
 .private-data-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:22px}

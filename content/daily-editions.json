@@ -7,11 +7,11 @@
     "curatorNote": "A current article from Aeon meets a poem and a short story from another time. Read for resonance, disagreement, and distance.",
     "works": [
       {
-        "id": "article-2026-09-24-772c013aea",
+        "id": "article-2026-09-24-92ae1667dd",
         "type": "article",
-        "title": "Britain’s last great airship",
+        "title": "Where a land ethic blooms",
         "author": {
-          "name": "Aeon Video",
+          "name": "Craig Maier",
           "lifespan": "Contemporary",
           "culture": "International"
         },
@@ -21,10 +21,10 @@
         "century": "21st century",
         "intro": "A current piece from Aeon, selected to place tonight’s older works in conversation with the present.",
         "source": "Aeon",
-        "sourceUrl": "https://aeon.co/videos/before-the-hindenburg-there-was-r101-britains-ill-fated-airship",
+        "sourceUrl": "https://aeon.co/essays/a-prairie-enthusiast-in-search-of-a-farming-land-ethic",
         "copyright": "Copyrighted; linked summary",
         "access": "external",
-        "text": "The remarkable engineering and tragic demise of the vessel that would end Britain’s dream to dominate the skies - by Aeon Video Watch on Aeon",
+        "text": "Caring for this planet entails decisions that are intimate, about our farms, our homes, our human and our wild neighbours.",
         "tags": [
           "contemporary",
           "ideas"
