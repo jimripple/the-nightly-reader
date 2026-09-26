@@ -1,5 +1,100 @@
 [
   {
+    "id": "2026-09-26",
+    "date": "2026-09-26",
+    "number": 12,
+    "theme": "The Present and the Permanent",
+    "curatorNote": "A current article from The Conversation meets a poem and a short story from another time. Read for resonance, disagreement, and distance.",
+    "works": [
+      {
+        "id": "article-2026-09-26-2936727737",
+        "type": "article",
+        "title": "In ‘NAZA,’ Israeli whistleblowers’ revelations about civilian deaths in Gaza reflect a longer history of Palestinian isolation",
+        "author": {
+          "name": "Drew Paul, Professor of Arabic, University of Tennessee",
+          "lifespan": "Contemporary",
+          "culture": "International"
+        },
+        "year": 2026,
+        "minutes": 8,
+        "category": "Ideas",
+        "century": "21st century",
+        "intro": "A current piece from The Conversation, selected to place tonight’s older works in conversation with the present.",
+        "source": "The Conversation",
+        "sourceUrl": "https://theconversation.com/in-naza-israeli-whistleblowers-revelations-about-civilian-deaths-in-gaza-reflect-a-longer-history-of-palestinian-isolation-292348",
+        "copyright": "Copyrighted; linked summary",
+        "access": "external",
+        "text": "Barriers, checkpoints and surveillance have made the plight of Palestinians easier to keep hidden. But thanks to films like ‘NAZA,’ that’s starting to change.",
+        "tags": [
+          "contemporary",
+          "ideas"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Recent, source-verified, and selected with a penalty against repeatedly using the same publication."
+      },
+      {
+        "id": "daily-2026-09-26-p5",
+        "type": "poem",
+        "title": "Sympathy",
+        "author": {
+          "name": "Paul Laurence Dunbar",
+          "lifespan": "1872–1906",
+          "culture": "African American"
+        },
+        "year": 1899,
+        "minutes": 3,
+        "category": "Lyric",
+        "century": "19th century",
+        "intro": "The source of the phrase ‘the caged bird sings,’ in the complete poem that gave it force.",
+        "source": "Poetry Foundation",
+        "sourceUrl": "https://www.poetryfoundation.org/poems/46459/sympathy-56d22658afbc0",
+        "copyright": "Public domain",
+        "text": "I know what the caged bird feels, alas!\nWhen the sun is bright on the upland slopes;\nWhen the wind stirs soft through the springing grass,\nAnd the river flows like a stream of glass;\nWhen the first bird sings and the first bud opes,\nAnd the faint perfume from its chalice steals—\nI know what the caged bird feels!",
+        "tags": [
+          "freedom",
+          "race",
+          "voice"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Selected for chronological and cultural contrast; recent author repetition is penalized.",
+        "editionId": "2026-09-19",
+        "editionNumber": 5,
+        "editionDate": "2026-09-19",
+        "baseId": "p5"
+      },
+      {
+        "id": "daily-2026-09-26-s5",
+        "type": "story",
+        "title": "The Story of an Hour",
+        "author": {
+          "name": "Kate Chopin",
+          "lifespan": "1850–1904",
+          "culture": "American"
+        },
+        "year": 1894,
+        "minutes": 6,
+        "category": "Realism",
+        "century": "19th century",
+        "intro": "A famously compressed story whose emotional reversal still feels dangerous.",
+        "source": "Wikisource",
+        "sourceUrl": "https://en.wikisource.org/wiki/The_Story_of_an_Hour",
+        "copyright": "Public domain",
+        "text": "Knowing that Mrs. Mallard was afflicted with a heart trouble, great care was taken to break to her as gently as possible the news of her husband's death.\n\nIt was her sister Josephine who told her, in broken sentences; veiled hints that revealed in half concealing. Her husband's friend Richards was there, too, near her.",
+        "tags": [
+          "marriage",
+          "freedom",
+          "women"
+        ],
+        "difficulty": "Moderate",
+        "rationale": "Selected for chronological and cultural contrast; recent author repetition is penalized.",
+        "editionId": "2026-09-19",
+        "editionNumber": 5,
+        "editionDate": "2026-09-19",
+        "baseId": "s5"
+      }
+    ]
+  },
+  {
     "id": "2026-09-25",
     "date": "2026-09-25",
     "number": 11,
